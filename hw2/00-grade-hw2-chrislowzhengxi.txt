@@ -1,0 +1,69 @@
+chrislowzhengxi hw2 grade: 40.0/40.0
+
+Graded files from svn revision Unknown
+
+--------------------------------------
+
+Question 1 points and comments: 20/20.0
+
+
+1A - correct
+
+1B - correct
+
+1C - correct
+
+1D - correct
+
+1E - correct
+
+1F - correct
+
+1G - correct
+
+1H - correct
+
+1I - correct
+
+1J - correct
+
+
+
+Graded by: Charles Benello (cmbenello)
+--------------------------------------
+
+Question 2 points and comments: 10/10.0
+
+
+2A - correct
+
+2B - correct
+
+2C - correct
+
+2D - correct
+
+2E - correct
+
+2F - correct
+
+
+
+Graded by: Charles Benello (cmbenello)
+
+
+
+--------------------------------------
+
+Question 3 points and comments: 10/10.0
+
+
+3 - correct
+
+
+
+Graded by: Charles Benello (cmbenello)
+--------------------------------------
+
+If you believe there is an error in your grade, please notify us using the
+regrading request form on Ed within three days of receiving this grade sheet.

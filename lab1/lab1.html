@@ -1,0 +1,520 @@
+<?xml version="1.0"?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.1//EN"
+        "http://www.w3.org/TR/xhtml11/DTD/xhtml11.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en">
+<!-- for future TA: change the canvas links and "-23" below-->
+<head>
+  <title>cs144-aut-24 Lab1</title>
+  <link rel="stylesheet" type="text/css" href="classes.css" />
+  <style type="text/css">
+    dd {
+      padding-bottom: 12px;
+    }
+    li {
+      padding-bottom: 12px;
+    }
+  </style>
+
+</head>
+<body>
+
+<blockquote>
+<h1><a href="https://canvas.uchicago.edu/courses/59113">cs144-aut-24</a> Lab 1</h1>
+
+<h2>Introduction</h2>
+
+Questions about this lab can be asked on Ed or during the Project 1 time window with Hussain and Yuming.
+
+<p>
+By the end of this lab, you should be able to use the source code
+control system Subversion confidently, have a working checkout of your
+<tt>CNETID-cs144-aut-24</tt> repository, use the build tool <tt>make</tt>, and create a
+Makefile. Because of the need to verify that every single student's svn repository
+is working, students should do this work individually.
+
+<p>
+Although we are not grading the lab, we will know that you haven't
+completed the lab by looking at your repository, and we may ask you to
+complete the lab if you are having problems with the basic usage
+of svn or make. If you report problems submitting
+Homework&nbsp;1 by svn, the first question you may be asked is: &quot;Did you have this
+problem when you completed Lab1?&quot;
+
+<p>
+
+If you are not currently registered for this class, you will not be able
+to do the lab work, because you will not have a "CNETID-cs144-aut-24"
+svn repository created for you.  If you only recently registered for cs144,
+you may have the same problem.
+
+<p>
+
+If you are not able to log into a CSIL Linux machine and get a working
+unix shell, email Hussain(hussainahmad@uchicago.edu).
+
+<p>
+
+<h2>Subversion: How to start</h2>
+
+Open a separate window for reading
+our <a href="https://canvas.uchicago.edu/courses/59113/files/folder/Labs/lab1?preview=11852855">
+Handing in work for cs144</a> page.
+
+<p>
+
+Read points <b>#1</b> (you can ignore the sub-bullets for now), <b>#2</b>, and <b>#3</b>.
+
+<p>
+
+Read and follow the instructions in <b>#4</b> and <b>#5</b>. If you are having problems with
+this step, see Hussain, so that we can determine whether or not a
+<tt>CNETID-cs144-aut-24</tt> repository exists for you on Phoenixforge.
+
+<p>
+
+Go to 
+https://phoenixforge.cs.uchicago.edu/projects/CNETID-cs144-aut-24/repository). 
+Change "CNETID" with your <b>CNETID</b>. 
+This takes you to the web view of
+your <tt>lab1</tt> directory.  As is mentioned in point <b>#8</b> of
+the "Handing in work for cs144" page, you should use this file, and
+the web page it links to, to double check (independent of
+using <tt>svn</tt>) that the files you intend to submit are really
+there.
+
+<p>
+
+Go into the "testSVN" part of lab1 in your
+new <tt>CNETID-cs144-aut-24</tt> checkout (always
+replacing <tt>CNETID</tt> with your CNetID in the following), and then
+edit <tt>test.c</tt> (you can use your favorite editor instead of
+emacs):
+<blockquote><pre>
+cd CNETID-cs144-aut-24
+cd lab1/testSVN
+emacs test.c
+</pre></blockquote>
+Edit the comment at the top of the file test.c to remove
+<a href="http://en.wikipedia.org/wiki/Daniel_Burnham">Daniel Burnham</a>'s name,
+put your name in instead,
+remove the following blank line.
+Then save, and exit the editor.
+To take a look at the change:
+<blockquote><pre>
+svn diff
+</pre></blockquote>
+You should see some header information talking about what the base
+version number of the file in the repository is and a note that the
+file being compared against is the working copy (what subversion calls
+the set of files you have on-disk after performing a
+&quot;checkout&quot;). Notice that the top one is prefixed with &quot;---&quot; and the
+working copy is prefixed by &quot;+++&quot;. These are the characters that
+appear in the contextual differences below to indicate a line that
+appears in the base version of the file (&quot;-&quot;) or in your modified
+version (&quot;+&quot;). Make sure you understand what the diff is saying about
+which line is in which file!
+
+<p>
+
+Next, add a file to the directory and then see what changes are
+pending locally for commit back to the repository:
+
+<blockquote><pre>
+echo &quot;&quot; &gt; documentation.txt
+svn status
+</pre></blockquote>
+
+The status command will show you all of the files that have been
+modified, added, deleted, or have just appeared. Note that the file
+<tt>test.c</tt> will have an &quot;M&quot; before it, for modified. The file
+<tt>documentation.txt</tt>, though, will have a &quot;?&quot;. This indicates that it is a
+new file on disk that has not yet been added to the repository.  To do so:
+
+<blockquote><pre>
+svn add documentation.txt
+svn status
+</pre></blockquote>
+And now, documentation.txt should have an &quot;A&quot; before it, for &quot;added&quot;.
+Now try
+
+<blockquote><pre>
+svn delete test.c
+</pre></blockquote>
+This command should generate an error message, as you can't delete a
+modified file, you must revert it first. Reverting discards any
+changes you have made to a file and replaces it with the copy that you
+last got from the repository. Note that it does not copy down the most
+recent version in the repository - it just restores what you were
+working from originally.
+
+<blockquote><pre>
+svn revert test.c
+svn delete test.c
+svn status
+</pre></blockquote>
+
+Now it should say that you have removed the file. Let's make sure the
+files in the local directory are up to date:
+
+<blockquote><pre>
+svn update
+</pre></blockquote>
+
+Subversion should tell you what version of the files you currently
+have, but not make any local changes as you are already up to
+date. Unless you provide extra arguments, this command will check all
+of the files in and below the current directory to see if they need to
+be updated with new status from the repository. Your <tt>CNET-cs144-aut-24</tt>
+repository in Phoenixforge will be regularly populated with new
+assignments and labs by the teaching staff, and running update from
+your <tt>CNET-cs144-aut-24</tt> directory is how you will pick them up.
+
+<p>
+
+At this point, you can do an <tt>svn commit</tt> to submit the changes made
+above to the repository. Commit (and several other subversion
+commands) require a log message to associate with your change. You may
+either provide this at the command-line by using an argument of the
+form -m &quot;Log message&quot; or by setting the <tt>EDITOR</tt> environment variable
+and just running the command. For example, if you do the following,
+emacs will be launched whenever the svn client needs you to edit
+text. You should edit the file to contain a comment about the commit,
+save, and exit.
+
+<blockquote><pre>
+export EDITOR=emacs
+svn commit
+</pre></blockquote>
+
+If svn cannot launch your editor and is not able to get a log message,
+you will get an error message stating that the commit failed, with a
+possibly confusing error message involving the file
+<tt>svn-commit.tmp</tt>. Just set your <tt>EDITOR</tt> environment variable or provide
+the -m &quot;Log message&quot; argument on the command-line and try again.
+
+<p>
+
+Get in the habit of writing log messages that concisely describe the
+reasons and goals for the changes that were made. Do not include your
+name or the date, as the repository already has that information.
+
+<h2>Subversion: Exercises</h2>
+
+Just follow the instructions for the exercises. Your lab submission
+for these will be the correct files and structure in your personal lab
+directory.
+
+<h3>Exercise 1 (create a readme.txt)</h3>
+
+If you followed the instructions above, you should have a <tt>~/cs144/CNETID-cs144-aut-24</tt>
+directory with a checkout of your personal files from
+Phoenixforge. If you skipped straight to here, go back and do
+that!
+
+<p>
+
+In the <tt>lab1</tt> subdirectory of <tt>CNETID-cs144-aut-24</tt>,
+create a file called <tt>readme.txt</tt>. Put your name in it, then:
+
+<blockquote><pre>
+svn add readme.txt
+svn commit readme.txt -m &quot;Readme file&quot;
+</pre></blockquote>
+
+That's it for the first exercise. You will be creating this file for
+every lab this quarter.
+
+<h3>Exercise 2 (change some files)</h3>
+
+In your <tt>CNETID-cs144-aut-24/lab1/ex2/</tt> directory, there are some
+files. Find them, perform one (1) edit, one (1) deletion (with <tt>svn
+delete</tt>), and then commit your changes to the repository. Type the
+following commands, paste the output of the log into
+your <tt>readme.txt</tt> file from the previous step, and commit the
+changes.
+
+<blockquote><pre>
+svn up
+svn log
+</pre></blockquote>
+
+&quot;<tt>svn up</tt>&quot; is a short form of &quot;<tt>svn update</tt>&quot;.
+
+<h3>Exercise 3 (creating and exploring history)</h3>
+
+First, you'll need to create a directory to store the file that you will create.
+From within your <tt>~/cs144/CNETID-cs144-aut-24/lab1</tt> directory:
+<blockquote><pre>
+mkdir ex3
+cd ex3
+</pre></blockquote>
+This will create a directory on your file system under your local copy
+of the files in the Subversion repository. In that directory, create a
+file named <tt>names.txt</tt>, put your family name in it and add that file.
+
+<p>
+
+If you just did an &quot;<tt>svn add names.txt</tt>&quot;, then you should get an
+error from svn saying &quot;<tt>svn: '.' is not a working copy.</tt>&quot;
+(Note: this is with svn version 1.6, as you learn with <tt>svn --version</tt>
+on a CSIL linux machine. Newer versions of svn generate a longer error message). 
+Subversion
+relies on a <tt>.svn/</tt> directory in each local directory to understand
+where the files are from and what the original copies were.  In the
+case of a new directory, that <tt>.svn/</tt> directory doesn't exist. But
+don't try to add it yourself: you must let svn create and manage the <tt>.svn</tt>
+directories and everything inside them. You will
+need to change to the parent directory and perform the svn add from there:
+<blockquote><pre>
+cd ..
+svn add ex3
+</pre></blockquote>
+
+Now svn will add the <tt>ex3</tt> directory and all of that directory's
+contents. If there were any files in that directory that you did not
+want to add, you would need to <tt>svn revert</tt> them. Now use svn to
+commit the directory and file additions.
+
+<p>
+
+Edit <tt>names.txt</tt> in the <tt>ex3</tt> directory to have your
+full name (given and family) instead of just your family name.
+Do an <tt>svn diff</tt>, and record the output in your <tt>readme.txt</tt>.
+Now, commit the change.
+
+<p>
+
+Now use <tt>svn log</tt> to
+show the history of changes in <tt>names.txt</tt>:
+<blockquote><pre>
+svn log names.txt
+</pre></blockquote>
+There is a good section in the <a href="http://svnbook.red-bean.com">SVN book</a>
+ on <a href="http://svnbook.red-bean.com/en/1.7/svn.tour.history.html">examining history</a>, including the use of <tt>svn log</tt>.
+In your <tt>lab1/readme.txt</tt> file, make a note of
+the revision numbers associated with the first (just family name) and with
+the second (full name) revision of the file.
+The revision number is the number following &quot;<tt>r</tt>&quot; on the
+line that notes the date of the revision.
+Also, notice that the lines in the log are in reverse chronological order:
+the most recent revision (higher revision numbers) are at the top.
+
+<p>
+
+If you do an <tt>svn diff</tt> at this point, you will see nothing, because
+there are no local changes in your working copy.  However, you can see
+the difference between two specific revision numbers (learned from <tt>svn log</tt>):
+<blockquote><pre>
+svn diff -r <b>P</b>:<b>Q</b>
+</pre></blockquote>
+where <tt><b>P</b></tt> and <tt><b>Q</b></tt> are the revision numbers
+for before (<tt><b>P</b></tt>) and after (<tt><b>Q</b></tt>) the change.
+Save this output to your <tt>readme.txt</tt>, and compare it to your
+earlier recorded <tt>svn diff</tt> output, and make note of how they differ.
+This shows how you can use svn commands to understand
+the history of what has happened to your files.
+
+<h3>Exercise 4 (on second thought...)</h3>
+
+Continue to work in the <tt>lab1/ex3</tt> directory for this
+exercise. We have decided to return to the previous version of
+<tt>names.txt</tt>, with just the family name. While you could simply edit the
+file to return it to its previous state, often you will need to undo a
+much more substantial change. Svn's merge command can make this much
+easier!
+
+<p>
+
+To start the merge, issue the following command, substituting <tt><b>Q</b></tt>
+and <tt><b>P</b></tt> with the after and before revision numbers from above.
+Note that order
+matters here!
+
+<blockquote><pre>
+svn merge -r <b>Q</b>:<b>P</b> names.txt
+</pre></blockquote>
+
+At this point, you should do an <tt>svn diff</tt> and look at the
+output. Please copy that output into your <tt>lab1/readme.txt</tt> file and
+commit. It should basically be the inverse of the output from the previous
+diff output.
+
+<p>
+
+You can now do an <tt>svn commit</tt> to commit your changes. If this
+had been a more complicated revision - in particular, one that was
+from the &quot;middle&quot; of a series of changes - there could have been a
+merge conflict and you might have had to do some small cleanup by hand
+before doing the commit. There's additional guidance on this in the
+<a href="http://svnbook.red-bean.com/en/1.7/svn.branchmerge.basicmerging.html#svn.branchmerge.basicmerging.undo">Undoing Changes</a> part of the SVN book.
+
+<h2>Make: Introduction</h2>
+
+Make (command-line program <tt>make</tt>) is a tool for building
+programs. It reads a &quot;<tt>Makefile</tt>&quot;, expands the
+variables in it, and executes the rule requested when run from the
+commandline. If no rule is provided, make runs the first rule it finds
+in the makefile.
+
+<p>
+
+The makefile has two parts. Variables are of the form:
+
+<blockquote><pre>
+OBJS = foo.o bar.o baz.o blork.o
+</pre></blockquote>
+
+By convention, variables are in all capital letters. Rules are of the form:
+
+<blockquote><pre>
+clean:
+rm -rf *.o
+
+main: foo.o
+gcc foo.o -o main
+</pre></blockquote>
+
+A rule is either a file name or a &quot;phony&quot; target. In either case, <tt>make</tt>
+looks on disk to see if there is a file with the name of the rule. If
+it does not exist or if a file with the rule name exists but is older
+than the list of files to the right of the colon, then make runs the
+command on the second line.
+
+<p>
+
+IMPORTANT! the second line starts with a tab character. If there is anything
+other than a tab at the start of that line, make will not run the
+commands.
+
+<p>
+
+Make has
+a <a href="http://www.gnu.org/software/make/manual/make.html">comprehensive
+manual</a>
+
+<h2>Make: How to start</h2>
+
+You should perform these actions in your
+<tt>CNETID-cs144-aut-24/lab1/testMake</tt> directory, but will not need
+to submit any changes.
+
+<p>
+
+Perform an <tt>ls</tt> and look at the files. There's a
+<tt>Makefile</tt>, two <tt>.c</tt> files, and two <tt>.h</tt> files. To
+build sources into an executable, just run:
+
+<blockquote><pre>
+make
+</pre></blockquote>
+
+You will see output from <tt>gcc</tt> compiling the two files and then
+linking them into a single binary. Now do another <tt>ls</tt>. You will see two
+<tt>.o</tt> files and an executable binary named </tt>main</tt>. Edit the file named
+<tt>foo.h</tt> to add a blank line someplace safe, save, and exit. Now re-run make as above.
+
+<p>
+
+You should see just the file <tt>foo.c</tt> rebuilt into <tt>foo.o</tt>, and then the
+binary <tt>main</tt> rebuilt. <tt>bar.o</tt> should not have been rebuilt. Read
+the <tt>Makefile</tt> to see why! When you ran make, it loaded the makefile and
+built the first target, main. Main depends on <tt>foo.o</tt> and <tt>bar.o</tt>.
+<tt>bar.o</tt>'s
+files have not changed, so it did not need to be updated. However,
+<tt>foo.o</tt>'s last modified date was older than <tt>foo.h</tt>'s, so it was
+rebuilt. The important thing to take away from this is that the
+Makefile is what specified the dependency, not the compiler or source!
+If you don't keep the dependencies up to date, make will not know what
+to rebuild when a file is edited.
+
+<p>
+
+You can revert the change with the svn revert command:
+<blockquote><pre>
+svn revert foo.h
+</pre></blockquote>
+
+<h2>Make: Exercise</h2>
+
+Your subversion user directory has been populated with a <tt>lab1/ex5</tt>
+directory containing a Makefile and some sources. You will be
+editing and simplifying this project.
+
+<p>
+
+Part 1: If you look at the rules, they have a lot of copied code!
+Create variables <tt>CC</tt> for the compiler, <tt>CFLAGS</tt> for the compiler flags,
+etc. and move all constant statements to the top of the file as
+variables. As an example, if a rule looked like the following:
+
+<blockquote><pre>
+clean:
+rm -rf a.o b.o c.o
+</pre></blockquote>
+
+You would turn it into:
+
+<blockquote><pre>
+RM = rm
+RMFLAGS = -rf
+OBJS = a.o b.o c.o
+
+clean:
+$(RM) $(RMFLAGS) $(OBJS)
+</pre></blockquote>
+
+Part 2: Listing all of those files both in the prerequisite line and
+on the commandline seems like a lot of redundant redundancy! Use
+automatic variables to simplify them. As an example, if a rule looked
+like the following:
+
+<blockquote><pre>
+frob: thing1.c thing2.c thing3.c
+tweak -o frob thing1.c thing2.c thing3.c
+</pre></blockquote>
+You would turn it into:
+
+<blockquote><pre>
+frob: thing1.c thing2.c thing3.c
+tweak -o $@ $^
+</pre></blockquote>
+
+Just svn commit the files when you are done. Be sure to run <tt>make clean</tt>
+followed by <tt>make</tt> periodically to check that you didn't break
+anything! There are multiple correct final solutions to this exercise.
+
+<h2>About SSH</h2>
+
+  There is a lot of information about how to use SSH.
+  Please see the following links for example:
+  <ul>
+    <li> <a href="https://www.google.com/search?q=ssh+tutorial">Various SSH Tutorials</a>
+    <li> <a href="https://www.nsc.liu.se/systems/ssh-tutorial.pdf ">Complete Tutorial</a>
+    <li> <a href="https://hackertarget.com/ssh-examples-tunnels/">SSH Tricks</a>
+  </ul>
+
+  <p>
+
+  Also it is convenient to set up a "passwordless" ssh (meaning where you don't have to type password everything).  To set this up, please see the following links:
+
+  <ul>
+    <li> <a href="https://www.google.com/search?q=passwordless+ssh">Various Passwordless SSH Tutorials</a>
+    <li> <a href="https://www.tecmint.com/ssh-passwordless-login-using-ssh-keygen-in-5-easy-steps/">SSH Passwordless Login Using SSH Keygen in 5 Easy Steps</a>
+    <li> <a href="https://linuxize.com/post/how-to-setup-passwordless-ssh-login/">How to Setup Passwordless SSH Login
+</a>
+  </ul>
+
+
+<h2>Finishing up</h2>
+Go to https://phoenixforge.cs.uchicago.edu/projects/CNETID-cs144-aut-24/repository. 
+Change "CNETID" with your <b>CNETID</b>
+<!-- Open again your <tt>lab1/00-checkme.html</tt> file -->, and look at the
+web page it links to.  Note the web page shows you an alternate view,
+separate from command-line <tt>svn</tt>, of what you have in your repository.
+
+</blockquote>
+
+<small>(Based on the lab1 originally written for cs144 by <a href="http://www.lars.com">Lars Bergstrom</a>)</small>
+
+</body>
+</html>

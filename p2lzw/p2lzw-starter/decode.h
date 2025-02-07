@@ -1,0 +1,8 @@
+#ifndef B6024EEC_47B1_43D8_A5E2_7E0CE27C1E65
+#define B6024EEC_47B1_43D8_A5E2_7E0CE27C1E65
+
+#include <stdio.h>
+
+void decode(FILE *input);
+
+#endif /* B6024EEC_47B1_43D8_A5E2_7E0CE27C1E65 */

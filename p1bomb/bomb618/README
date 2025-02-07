@@ -1,0 +1,8 @@
+This is bomb 618.
+
+It belongs to chrislowzhengxi (chrislowzhengxi@uchicago.edu)
+
+
+gdb -x .gdbbreaks ./bomb
+
+To call the one with explode_bomb bp: gdbx ./bomb

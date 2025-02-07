@@ -1,0 +1,11 @@
+chrislowzhengxi exam1 grade: 77/100
+
+  Question 1: 24 / 30
+  Question 2: 18 / 21
+  Question 3: 8 / 14
+  Question 4: 8 / 16
+  Question 5: 19 / 19
+
+Questions were graded by TAs and professors. If you believe a question
+was graded incorrectly, please drop by the exam office hour.
+

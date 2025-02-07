@@ -1,0 +1,369 @@
+boot-repair-4ppa2075                                              [20240527_2222]
+
+============================= Boot Repair Summary ==============================
+
+
+
+
+
+modprobe: FATAL: Module efivars not found in directory /lib/modules/6.8.0-31-generic
+
+Recommended repair: ____________________________________________________________
+
+The default repair of the Boot-Repair utility will reinstall the grub-efi-amd64-signed of
+nvme0n1p5,
+using the following options:  nvme0n1p1/boot/efi
+Additional repair will be performed: unhide-bootmenu-10s use-standard-efi-file
+
+
+/boot/efi added in nvme0n1p5/fstab
+Mount /dev/nvme0n1p1 on /mnt/boot/efi
+
+Unhide GRUB boot menu in nvme0n1p5/etc/default/grub
+
+============ Reinstall the grub-efi-amd64-signed of /dev/nvme0n1p5 =============
+
+chroot /mnt grub-install --version
+grub-install (GRUB) 2.12-1ubuntu7
+modprobe: FATAL: Module efivars not found in directory /lib/modules/6.8.0-31-generic
+chroot /mnt modprobe efivars
+
+chroot /mnt efibootmgr -v before grub install
+EFI variables are not supported on this system.
+error trace:
+
+
+chroot /mnt uname -r
+6.8.0-31-generic
+
+chroot /mnt grub-install --efi-directory=/boot/efi --target=x86_64-efi --uefi-secure-boot
+Installing for x86_64-efi platform.
+grub-install: warning: EFI variables cannot be set on this system.
+grub-install: warning: You will have to complete the GRUB setup manually.
+Installation finished. No error reported.
+df /dev/nvme0n1p1
+mv /mnt/boot/efi/EFI/Boot/bootx64.efi /mnt/boot/efi/EFI/Boot/bkpbootx64.efi
+cp /mnt/boot/efi/efi/ubuntu/shimx64.efi /mnt/boot/efi/EFI/Boot/bootx64.efi
+cp /mnt/boot/efi/efi/ubuntu/grubx64.efi /mnt/boot/efi/EFI/Boot/
+
+chroot /mnt grub-install --efi-directory=/boot/efi --target=x86_64-efi --uefi-secure-boot
+Installing for x86_64-efi platform.
+grub-install: warning: EFI variables cannot be set on this system.
+grub-install: warning: You will have to complete the GRUB setup manually.
+Installation finished. No error reported.
+
+chroot /mnt efibootmgr -v after grub install
+EFI variables are not supported on this system.
+error trace:
+
+Warning: NVram is locked (Ubuntu not found in efibootmgr).
+
+chroot /mnt update-grub
+Sourcing file `/etc/default/grub'
+Found linux image: /boot/vmlinuz-6.8.8-surface-1
+Found initrd image: /boot/initrd.img-6.8.8-surface-1
+Found linux image: /boot/vmlinuz-6.8.6-surface-1
+Found initrd image: /boot/initrd.img-6.8.6-surface-1
+Found linux image: /boot/vmlinuz-6.5.0-35-generic
+Found initrd image: /boot/initrd.img-6.5.0-35-generic
+Found memtest86+ 64bit EFI image: /boot/memtest86+x64.efi
+Found Windows Boot Manager on /dev/nvme0n1p1@/EFI/Microsoft/Boot/bootmgfw.efi
+Adding boot menu entry for UEFI Firmware Settings ...
+
+Unhide GRUB boot menu in nvme0n1p5/boot/grub/grub.cfg
+
+Boot successfully repaired.
+
+Locked-NVram detected. Please do not forget to make your UEFI firmware boot on the Ubuntu 23.10 entry (nvme0n1p1/efi/ubuntu/shimx64.efi file) !
+Please disable SecureBoot in the BIOS. Then try again.
+
+
+============================ Boot Info After Repair ============================
+
+ => Windows is installed in the MBR of /dev/nvme0n1.
+ => Grub2 (v2.00) is installed in the MBR of /dev/sda and looks at sector 1 of 
+    the same hard drive for core.img. core.img is at this location and looks 
+    for (hd0,msdos1)/boot/grub. It also embeds following components:
+    
+    modules
+    ---------------------------------------------------------------------------
+    biosdisk part_msdos fshelp fat ntfs exfat
+    ---------------------------------------------------------------------------
+
+nvme0n1p1: _____________________________________________________________________
+
+    File system:       vfat
+    Boot sector type:  FAT32
+    Boot sector info:  No errors found in the Boot Parameter Block.
+    Operating System:  
+    Boot files:        
+
+nvme0n1p2: _____________________________________________________________________
+
+    File system:       
+    Boot sector type:  -
+    Boot sector info: 
+
+nvme0n1p3: _____________________________________________________________________
+
+    File system:       BitLocker
+    Boot sector type:  Unknown
+    Boot sector info: 
+
+nvme0n1p4: _____________________________________________________________________
+
+    File system:       ntfs
+    Boot sector type:  NTFS
+    Boot sector info:  According to the info in the boot sector, nvme0n1p4 
+                       starts at sector 16482048. But according to the info 
+                       from fdisk, nvme0n1p4 starts at sector 495804416.
+    Operating System:  
+    Boot files:        
+
+nvme0n1p5: _____________________________________________________________________
+
+    File system:       ext4
+    Boot sector type:  -
+    Boot sector info: 
+    Operating System:  Ubuntu 23.10
+    Boot files:        /boot/grub/grub.cfg /etc/fstab /etc/default/grub
+
+sda1: __________________________________________________________________________
+
+    File system:       vfat
+    Boot sector type:  MSWIN4.1: FAT32
+    Boot sector info:  No errors found in the Boot Parameter Block.
+    Operating System:  
+    Boot files:        /boot/grub/grub.cfg /efi/boot/bootx64.efi 
+                       /efi/boot/grubx64.efi /efi/boot/mmx64.efi
+
+
+================================ 1 OS detected =================================
+
+OS#1:   Ubuntu 23.10 on nvme0n1p5
+
+================================ Host/Hardware =================================
+
+CPU architecture: 64-bit
+Video: Alder Lake-UP3 GT2 [Iris Xe Graphics] from Intel Corporation
+Live-session OS is Ubuntu 64-bit (Ubuntu 24.04 LTS, noble, x86_64)
+
+===================================== UEFI =====================================
+
+BIOS/UEFI firmware: 10.7.143 from Microsoft Corporation
+The firmware is EFI-compatible, and is set in EFI-mode for this live-session.
+SecureBoot enabled according to mokutil - Please report this message to boot.repair@gmail.com.
+BootCurrent: 0003
+Timeout: 0 seconds
+BootOrder: 0004,0001,0005,0000,0002
+Boot0000* Internal Storage	FvVol(3e502dbf-5886-4eab-b100-1d7217ebed59)/FvFile(50670071-478f-4be7-ad13-8754f379c62f)53444400
+      dp: 04 07 14 00 bf 2d 50 3e 86 58 ab 4e b1 00 1d 72 17 eb ed 59 / 04 06 14 00 71 00 67 50 8f 47 e7 4b ad 13 87 54 f3 79 c6 2f / 7f ff 04 00
+    data: 53 44 44 00
+Boot0001* USB Storage	FvVol(3e502dbf-5886-4eab-b100-1d7217ebed59)/FvFile(50670071-478f-4be7-ad13-8754f379c62f)55534200
+      dp: 04 07 14 00 bf 2d 50 3e 86 58 ab 4e b1 00 1d 72 17 eb ed 59 / 04 06 14 00 71 00 67 50 8f 47 e7 4b ad 13 87 54 f3 79 c6 2f / 7f ff 04 00
+    data: 55 53 42 00
+Boot0002* PXE Network	FvVol(3e502dbf-5886-4eab-b100-1d7217ebed59)/FvFile(50670071-478f-4be7-ad13-8754f379c62f)50584500
+      dp: 04 07 14 00 bf 2d 50 3e 86 58 ab 4e b1 00 1d 72 17 eb ed 59 / 04 06 14 00 71 00 67 50 8f 47 e7 4b ad 13 87 54 f3 79 c6 2f / 7f ff 04 00
+    data: 50 58 45 00
+Boot0003* MsTemp	PciRoot(0x0)/Pci(0x14,0x0)/USB(4,0)/USB(1,0)/HD(1,MBR,0x2fc77c41,0x800,0x773cd00)
+      dp: 02 01 0c 00 d0 41 03 0a 00 00 00 00 / 01 01 06 00 00 14 / 03 05 06 00 04 00 / 03 05 06 00 01 00 / 04 01 2a 00 01 00 00 00 00 08 00 00 00 00 00 00 00 cd 73 07 00 00 00 00 41 7c c7 2f 00 00 00 00 00 00 00 00 00 00 00 00 01 01 / 7f ff 04 00
+Boot0004* ubuntu	HD(1,GPT,5237a673-4cb2-40ca-b037-7418eba63c84,0x800,0x82000)/File(\EFI\ubuntu\shimx64.efi)
+      dp: 04 01 2a 00 01 00 00 00 00 08 00 00 00 00 00 00 00 20 08 00 00 00 00 00 73 a6 37 52 b2 4c ca 40 b0 37 74 18 eb a6 3c 84 02 02 / 04 04 34 00 5c 00 45 00 46 00 49 00 5c 00 75 00 62 00 75 00 6e 00 74 00 75 00 5c 00 73 00 68 00 69 00 6d 00 78 00 36 00 34 00 2e 00 65 00 66 00 69 00 00 00 / 7f ff 04 00
+Boot0005* Windows Boot Manager	HD(1,GPT,5237a673-4cb2-40ca-b037-7418eba63c84,0x800,0x82000)/File(\EFI\Microsoft\Boot\bootmgfw.efi)57494e444f5753000100000088000000780000004200430044004f0042004a004500430054003d007b00390064006500610038003600320063002d0035006300640064002d0034006500370030002d0061006300630031002d006600330032006200330034003400640034003700390035007d0000000e000100000010000000040000007fff0400
+      dp: 04 01 2a 00 01 00 00 00 00 08 00 00 00 00 00 00 00 20 08 00 00 00 00 00 73 a6 37 52 b2 4c ca 40 b0 37 74 18 eb a6 3c 84 02 02 / 04 04 46 00 5c 00 45 00 46 00 49 00 5c 00 4d 00 69 00 63 00 72 00 6f 00 73 00 6f 00 66 00 74 00 5c 00 42 00 6f 00 6f 00 74 00 5c 00 62 00 6f 00 6f 00 74 00 6d 00 67 00 66 00 77 00 2e 00 65 00 66 00 69 00 00 00 / 7f ff 04 00
+    data: 57 49 4e 44 4f 57 53 00 01 00 00 00 88 00 00 00 78 00 00 00 42 00 43 00 44 00 4f 00 42 00 4a 00 45 00 43 00 54 00 3d 00 7b 00 39 00 64 00 65 00 61 00 38 00 36 00 32 00 63 00 2d 00 35 00 63 00 64 00 64 00 2d 00 34 00 65 00 37 00 30 00 2d 00 61 00 63 00 63 00 31 00 2d 00 66 00 33 00 32 00 62 00 33 00 34 00 34 00 64 00 34 00 37 00 39 00 35 00 7d 00 00 00 0e 00 01 00 00 00 10 00 00 00 04 00 00 00 7f ff 04 00
+
+64349b3622c65f495a99dbf6102496e3   nvme0n1p1/Boot/bkpbootx64.efi
+64349b3622c65f495a99dbf6102496e3   nvme0n1p1/Boot/bootx64.efi
+925029921cfc9e40f54f55d4cffbdd49   nvme0n1p1/Boot/fbx64.efi
+1d99ff510dac8535d215797ad5e69230   nvme0n1p1/Boot/grubx64.efi
+857e495f63f23c842e2b074e692b6e3a   nvme0n1p1/Boot/mmx64.efi
+1d99ff510dac8535d215797ad5e69230   nvme0n1p1/ubuntu/grubx64.efi
+857e495f63f23c842e2b074e692b6e3a   nvme0n1p1/ubuntu/mmx64.efi
+64349b3622c65f495a99dbf6102496e3   nvme0n1p1/ubuntu/shimx64.efi
+23837e7f81b5b729c2cc673d3da56273   nvme0n1p1/Microsoft/Boot/SecureBootRecovery.efi
+e34c4135d75ce5708a2939554a087183   nvme0n1p1/Microsoft/Boot/bootmgfw.efi
+3029d8cf512ca3d3dec4bf64c2d0d20c   nvme0n1p1/Microsoft/Boot/bootmgr.efi
+
+============================= Drive/Partition Info =============================
+
+Disks info: ____________________________________________________________________
+
+nvme0n1	: is-GPT,	no-BIOSboot,	has---ESP, 	not-usb,	not-mmc, has-os,	no-wind,	2048 sectors * 512 bytes
+
+Partitions info (1/3): _________________________________________________________
+
+nvme0n1p1	: no-os,	64, nopakmgr,	no-docgrub,	nogrub,	nogrubinstall,	no-grubenv,	noupdategrub,	not-far
+nvme0n1p3	: no-os,	64, nopakmgr,	no-docgrub,	nogrub,	nogrubinstall,	no-grubenv,	noupdategrub,	end-after-100GB
+nvme0n1p4	: no-os,	64, nopakmgr,	no-docgrub,	nogrub,	nogrubinstall,	no-grubenv,	noupdategrub,	end-after-100GB
+nvme0n1p5	: is-os,	64, apt-get,	signed grub-efi ,	grub2,	grub-install,	grubenv-ok,	update-grub,	end-after-100GB
+
+Partitions info (2/3): _________________________________________________________
+
+nvme0n1p1	: is---ESP,	part-has-no-fstab,	no-nt,	no-winload,	no-recov-nor-hid,	no-bmgr,	notwinboot
+nvme0n1p3	: isnotESP,	part-has-no-fstab,	no-nt,	no-winload,	no-recov-nor-hid,	no-bmgr,	notwinboot
+nvme0n1p4	: isnotESP,	part-has-no-fstab,	no-nt,	no-winload,	recovery-or-hidden,	no-bmgr,	notwinboot
+nvme0n1p5	: isnotESP,	fstab-has-bad-efi,	no-nt,	no-winload,	no-recov-nor-hid,	no-bmgr,	notwinboot
+
+Partitions info (3/3): ______________ctor 116648_
+
+nvme0n1p1	: not--sepboot,	no---he i	part-has-
+     fstabinfo 
+oting tp-usrarts---us58fre0n1pfdsk, no-fstab80-grub.d,	8. me0n1
+nvme0n1p3	: maybesepbootstem:  
+-bxt16.m fdisk,nvme0n1p4ng Sartst-  e4941
+     --44,	romt-:  -era4 Syse0n1p5o-
+    Boot fub        
+info 
+vme0n1_________________________e0n1p4 ac not- sect       fpera4
+otystem: .
+   ntu 2    Boota10
+not-o: g Sy
+    Boot fi0495aulttype:Ope
+
+s sta____________________________s:  s: 
+
+nvme5:.cfb.0n1p5etcrdi  e       fwithc/dt,	3.1-T32houtt sectctor in sect 
+   ,	rorsating
+    F	:  Nororsund it-___________________________std-gr       /type: /grub
+fdisk -l (filtered at 82/efi/booot/g________
+
+Dis.cfg  MWI1: 953.87 GiB, 1024209543168 bytes, 2000409264 sectors
+efi/bgrub. identifier: A32A902F-BE9B-48BA-8ldE-77415D7206B9
+             Start        End   Sectors s]ize TypeSWn1p1      2048     534527    532480   ============= 0M EFI Systemon
+Lfg 2  643452ion 6467295     3276===============  1604 Microsoft reserved, x_______________
+n OEFI =96  4958044UPrp5237120 236.1G are:10.t bskic data Mi4 4pora04-UCor li816371ive 235=================== C   1.1patWindows7.ecovery environment Mi5 hitak63are i 1467===================8575 560164864 ============= 7to m Linux filesyle,Ha.cfgsda: 59.62 detcted, 64016220000 bu 2es==================25031/U0 sectrom 
+rdeware enti
+Cr: 0x2fcakc-U
+     Boot Xee0n1pphcs ] ostIntl C Id orpratio: 00ive*     ses8 1nte031679 File(50======================632 5,06pat c W================
+
+FAT32 (Leo)
+
+  Uefi 
+g /m boot/bil4.e
+      t secgrubx6
+      d648
+
+: 00:64.0GB:scsi:5File( 8 5msil s:SanFvCrul C(3;
+1:10 lik 2d4 000bf  1440 b 2dfat32::he i l is sed 5x64.efi
+n1:================
+40 7  M58 2 c6:gpt1 0abrent S
+V2130-1T 2ded 5 / 004 0 2dUbunt4MB:Ubunt3B S50 8t 4LTI ootOtem pe0n1pition e7xt esped 56 2USB S======================4.0 2d161 OB S:ble,oso.7.14erfro88rt4eaon:msft.14ed 53StohitFvFi540 7ntef3  2d:Bset ic data79cp4 ab-55sft86 5aed 54Sto7 1* U550 7File(08B Sntfe b1:hid ===, diag, no_automund inted 55:466 1 2durr214870 7ext ed:ed 5
+Free space >10Mi 2d     /dp:02doot/g48vme0n1: 243244ol(f ff4324SBctedSto00000ol(, x: 7167627219OS/OS/2721u 240005067
+blkid )534erefi 
+              dbfbf 2: 04
+NAME        FSTYPe b1 0   UUID             4 00 7      PART/  0671 004 00 7LA64-bL            67 5f 473 87 f3
+: 00b ad 00
+     ddataa: a: 
+â”” 00
+Bo€eb      vfat      1823-067UEFI 50 5Ubuntuf027db1-01 0x9 /BUN7 e 24_0      , x14,0)/HHDD(        45 ”œ3*13 fg 1 Terap    A050-0LTC(1, rmwaa673-4cb2-40ca-b037-ke-	Pe is s63c84 SY72 1E04           502 sys-58  U2f)nMBR,0x2”€c7p64)0)
+    d0d08aake--548 4782Al045-2fe78937ec00 00  00
+ f-4b-ad1t -873 f62/ 03 tion6 002fc Bu3 BitLocker2a         61a0 00 0820-600 00 ce-4b00-9e3e40cb30190 00 0 0034  00
+  50si3e 8modeab  05 04 001 0/ 044  50       /U6ECuD16mx670 GT1 2    d6cac6d7 00 dcCub-4d8e-8bbc-3fbad15b0c0f3d1uti - Re b1 0tools MBR0003\E Bu5  00
+B002      00 01cd ad171 0-3140-433 a-ant:e-a1 0cee58f24The 58fad1e7977340cbf-43- 01e4-f2d6e0362e5b  00
+ 
+
+Mount points      d4444 00 b2d 5s Bo___
+
+    14,Ava53 Use%tibc6 ted o5 06/dev/nv__________________________ena         222.93 0500 5T,5/mnt/boot-sav2-40.cfp1
+cb2EFI\            5 00-7firm  67a63cmnt/boot,0x800x8EFI\ile(\dev// 045              1===================7-22Boot\nt)57e0x8Msb ad537417-10a63ccdrom
+efivarfsdata86.4Koft\2a63cootO/firmware/efi/2004ars
+
+/ 7f nt of fab-* Wbootx6404 07440e50oot M2d 5
+
+\EF Buca-b        c4            rw,relatime,fmagrub.=0022,d660k3003tect2,codepage=437,ioch1003et=isoldf-4-1,ss fourtname=mixefi 
+,errors=remount-ro008fw. Bu4            fus00 00584         0030d006e006300310 37 r_id3003,grund ip4 04d6 00 5allow_othe58505ksil C7d
+
+==62 b2820
+
+
+=p5            5c ca            eb a610atimef 00 0784 00 75003           ro,no6f e1002300344006406233sk400343200003739epa5007d000e00o1000081000040007ff0 691,      dp:ort 2ae 01 0 08 0 00 00 20 08 00 073 7a37 
+
+====44 000 4ff 00 444 0 nvme6 00 75/boot/ 
+    b/54 .cfg Wind0035) 42 005 00 615 00 61
+
+Ubuntu   45 0 7c7089 05c 430 62a0 75-ae 074 000 2e-U5
+kund - Boot Manager (on / 041)   be7-prober-efi-800x73cFC
+# 00 00 1 LN6 14/etc/3d dtart0d 00k,0 64ber  00 00 1#
+U06 Firmware ] tting I uefi-90dbf6re01 00 10 E4 00 0 /etff 0files        
+643_nvme0n1p1i-Boot/b640e 5f3 00 41 00  nvme000 4fa 00 4n1p57f f039ng S0
+  2d0reris0n1p1/cfc44 0
+
+# <file 00 04em>f54 a6nt poBoot0005bd  <tpore/Boot<003 
+  /Boot     <dump99fpass>01 00  / was on 2d00__________________________5 5dring cuc62n installatio-4cdev/b/gk/by-uuid/63 6 00 35 313 00 645 00b-2d 06e4 00 65 ce7 00 5 00 55 / 5c 00  de50 8ults 0 1e6/boot/efi 230 on me0n1p1000)1 rubxing 57e95f installf2ile(\swap.006300g
+    Boot fine	e3aapi
+6w	0f495495 04 D=00 350-7d d00 /boot/efi        00 6f   def4 f3343     USB(     30 
+=c95 00 61ot/bofg 5/b36/de579734/grub2553dow ==2cc42 00
+
+GRUB_DLTAULT3003
+eBRecoTIb 4eOUT_72 1YLE 01 0enu75cBootRB_08a29395=10sofRecoDI72 1RIx0)TOR=`4 02b_610ease -i -s 2bd\EFull || echo D00 00i 1d`8cBoot/boCMDLINE_info: NUXovry.e34413"qe69et splskh"======
+_Dis i _______________________________
+
+nvme0	:="s-ce5Boot/bo512S7 54 83 _OS_PRO64-b4c250 84 02e3   2cc73dp5: tu	f2 of 
+Bo load62tu detfiles/Boot//S=nag      tecB - detB             99le GP  E  13boot.(s79            ?? = grubi             3 00 5files  nvme0s: b 02a30  400004f-45336900 5,	no-gssiime-se2 01ess  boot/vmlinuzmgr,    r
+45= 13	336os,	4 =  nop.044	no-n
+TCoroggrubin-6.5.0-35-generin E 00
+ env,f-4os,	6BootCn
+T589 fterc c430OS/oot e0336grub,	nooot/vm	: no6.80001-se4950 8ce-1data2
+
+nvmeg t li  Ub3 C0 fter 01.cd 04 0604nte0n1p4GB
+grub,	nog secoz-	: i35 surfapt-40064 00 7rub,gneos,	/Uefi ,: 064, ,	grstall,5042nt:00Got/
+nvme0nupdat. 84d GPrub,= 185 001 GTos,	3 2,ime53 1-4urr 01  boot/initrd.1/u,	no-grpar1 Ohas-nfsta1,	no-n 487.winltectad, ca boot/-nn1p1mg-6.64, n-35-generic B
+
+
+ f 04= 1os,	loaT,8 ,	noupd8.File( liom.-10recoot/t-h1/uo-o8.6-	e ape-100GB          
+Pa74122 01efi ,332/5.bit 458752
+
+nvme0nt/SP,o-f1 O1 Oos,	64end-ater-1b ad,	s45g t===================B
+recoveboot
+nssi-orssiidda:,	no-bmg/	notg--ElP,	D(2
+9c2____________________
+
+== by 7f ls -l /etc/grub.d/ boot/b53tere
+       =chrroott /mmnt /m
+
+-rwxr-s
+hro 17.oo0 00 00ootmt 	P228 Oct  2  2tect3 10_linuxrobefivoot /not  efir -ibomg 18133 Apr  4 10:File( 10 vialesodulepkg-newarevars
+
+ch s1 upte8.0t 43
+E2 rubt ll
+ insEFrortrablx_zfoot /e n-r
+-r
+suppo31-em3eri system.0
+e2 I varinstl --i-dce
+
+
+coot /mt uamenot ry=6.8/bootppo14459e grb  /mll
+ gr
+E-inles_xe5 06be ee -hro-boortgr tensta5 thitarys  t=x86_6pltalltfnuechromntuna
+grre-/mnt oot
+0-3ppo  786for root staleri3 25_505iurctor sy: w cogrub-inll:EFIgetrores  wi hvaribe sseon trecinstallo t/et/e thiFile(0 
+
+chr insmnt 23 53 d 00s-ysoberve .
+Ix=/temarn31
+Ee tvariaGRUBerrNobe7-or uporteanut o.
+d
+6 cot/e 11ke-arnihed6_6.  Nouefi-pbrmwareot/bl:stallm.
+g1efi /4 rgv .
+nt/r tbkpb64.eicp /mntre/Becuthi tof /dystwaroot   GT2 Sep  : wa/EF Nill fwupdboot/Ins
+Itegrub-in22
+mv 5 ntu:-103/boot/efiEFI/Bo
+
+chrot/boallyrub-ibootx/efi/u --ell
+nsta/boot/ex86Yoemr t57estomnt gi
+x6m.
+gcu/sI vem /mn2 40_ng ftx86_4-e-efi dev/cp    215 ishboot
+ gr-U: EFufor x_64-x64.dfles ompcu5 sh: warmxnin1yste.
+griab
+nt te  the= sda1/b -y /ib/b//li/mocfg.8.pbl1-gner)c
+ce GortedchrodprTry or Instalin Ubuntu
+grub tall
+u (safe /liaphics)
+Bppofupm neBoot00 volumevariabEFI 99efi/Eare buttings
+Test lomoefibodprd.
+e G sea1: Location of ed. ). load62bbootmGnstalla repoatent odpr     : /Gctedppobf : /6.8.99le 6.8.ce--1
+ce-E  13lotall
+ noerror
+Fo  grubic
+c trd./boot/irecomg.
+Inub-surb.fin-6.und     30 

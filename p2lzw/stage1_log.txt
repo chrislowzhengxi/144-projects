@@ -1,0 +1,39 @@
+Overall Design of the Code: 
+For Stage 1, I implemented a hash table with chaining to store (before, character)
+pairs efficiently, using the DictStorage struct for encdoe. I initially used a dictionary 
+with linear search, but later switched to a hash table to improve performance. 
+I based my code on the LZW pseudocode from the lecture video 
+(https://www.youtube.com/watch?v=vDXmJ-6mizE&t=2648s), with a the hashFunction 
+which is based off (F) in page 4 of the project documentation that uses
+bit-shifting and or to distribute entries evenly.
+
+
+Major Problems Faced and Solutions:
+Encode: The biggest challenge was designing an effective hash function. I 
+decided to use the project pdf and use its hash function (F).
+Implementing linked lists for hash collisions was also tricky. I originally tried
+overwriting values, which caused errors, but discussions with my classmate, Aadam, 
+helped me understand proper chaining with linked lists. 
+Translating the pseudocode into C required careful mapping of each step as well, 
+and it took me a long time. The video lecture posted by Professor Zhao did include 
+a great pseudocode which I based my encode and decode on.
+
+Decode: CSCSC problem is tricky. Watched the whole video uplaoded by Professor
+Zhao and realized that we have to add the first output of the augmented string 
+In my code: output[0]
+
+
+Another issue is my DBG table for encode.c not printing out. After asking Tian, 
+I realized it's because I freed encode before calling the table. 
+
+
+Materials Referenced: 
+I primarily used the lecture video for pseudocode, the project for hash functions,
+and CS143 notes as referencing. Discussions with Aadam helped clarify linked list
+handling for hash collisions, and GeeksforGeeks provided examples for implementing 
+hash tables in C.
+
+Feedback on the Project
+The instructions were clear, especially with the echo "BABAABAAA" | STAGE=1 ./encode example. 
+I hope there can be a clearer rubric that is released earlier, so we know what
+to include earlier. 

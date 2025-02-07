@@ -1,0 +1,45 @@
+Exercise 1 
+
+add -g flag to make
+fix logic in for loop
+
+
+Exercise 2 
+
+//The length of the data4 array is: 55
+
+line 30          
+data4[offset] = data4[i];
+(gdb) info locals
+offset = 54
+i = 109
+data = "Xfmm-!nbzc"
+stringToPrint = "Some additional text."
+data3 = "A final bit of text."
+data4 = "Well, maybe just a little uis to eat xl,ijtst loe  un!"
+
+(Notice data4 array gets corrupted at line)
+(gdb) step 1
+line 28        
+for (i = 200; i > 13; i--) {
+(gdb) info locals
+offset = 54
+i = 109
+data = "Xfmm-!nbzc"
+stringToPrint = "Some additional text."
+data3 = "A final bit of text."
+data4 = "Well, maybe just a little uis to eat xl,ijtst loe  un", <incomplete sequence \372>
+
+
+Exercise 3
+
+1. 0x24 bytes are being reserved for locals on the stack.
+   This is shown in the instruction "sub $0x24, %esp".
+
+2. "topsecret". It can be displayed with the print command:
+   p {char*}0x80495d0
+
+3. b *0x0804837f
+
+4. 11 is the value returned. By using the 'info registers' command,
+   you can see the value in the %eax register.
